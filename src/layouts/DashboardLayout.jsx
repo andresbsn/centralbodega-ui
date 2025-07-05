@@ -1,17 +1,33 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { logout } from "@services/authService";
 
 export default function DashboardLayout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-64 bg-gray-800 text-white p-4">
-        <h2 className="text-xl font-bold mb-4">Panel</h2>
-        <nav className="flex flex-col space-y-2">
-          <NavLink to="/search" className="hover:underline">Busqueda General</NavLink>
-          <NavLink to="/pymesguayas" className="hover:underline">Pymes Guayas</NavLink>
-          <NavLink to="/iess" className="hover:underline">IESS Guayaquil</NavLink>
-        </nav>
+    <div className="flex h-screen overflow-hidden">
+      <aside className="w-64 bg-gray-800 text-white p-4 flex flex-col justify-between">
+        <div>
+          <h2 className="text-xl font-bold mb-4">Panel</h2>
+          <nav className="flex flex-col space-y-2">
+            <NavLink to="/personas" className="hover:underline">Personas Unificadas</NavLink>
+          </nav>
+        </div>
+
+        <button
+          onClick={handleLogout}
+          className="mt-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition"
+        >
+          Cerrar sesión
+        </button>
       </aside>
-      <main className="flex-1 p-6 bg-gray-100">
+
+      <main className="flex-1 p-6 bg-gray-100 overflow-auto w-full">
         <Outlet />
       </main>
     </div>

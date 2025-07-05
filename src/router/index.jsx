@@ -1,17 +1,23 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashboardLayout from "@layouts/DashboardLayout";
-import PymesPage from "@pages/PymesPage";
-import IESSPage from "../pages/IessPage";
+import Login from "@pages/Login";
+import PrivateRoute from "@components/PrivateRoute";
 import SearchUnified from "@pages/SearchUnified";
-
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
-      { path: "pymesguayas", element: <PymesPage /> },
-      { path: "iess", element: <IESSPage /> },
+      // { path: "search", element: <SearchUnified /> },
       { path: "search", element: <SearchUnified /> },
     ],
   },
