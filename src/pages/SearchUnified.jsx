@@ -73,19 +73,23 @@ export default function SearchUnificadas() {
         </ul>
       )}
 
-      {/* Detalle + Botón de exportar */}
-      {tieneDatos && (
+      {detalle && (
         <div className="w-full p-6">
           <UnifiedPersonDetail data={detalle} />
 
-          <div className="mt-4">
-            <button
-              onClick={handleExportar}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-            >
-              Exportar a Excel
-            </button>
-          </div>
+          <button
+            onClick={() =>
+              exportToExcel({
+                rsi: detalle.rsi,
+                iess: detalle.iess,
+                cte: detalle.cte,
+                nombre: detalle.iess?.NOMEM || detalle.rsi?.nomem || "exportacion"
+              })
+            }
+            className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
+          >
+            Exportar a Excel
+          </button>
         </div>
       )}
     </div>
