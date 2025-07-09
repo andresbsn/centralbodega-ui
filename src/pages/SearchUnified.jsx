@@ -81,19 +81,21 @@ export default function SearchUnificadas() {
         <div className="w-full p-6">
           <UnifiedPersonDetail data={detalle} />
 
-          <button
-            onClick={() =>
-              exportToExcel({
-                rsi: detalle.rsi,
-                iess: detalle.iess,
-                cte: detalle.cte,
-                nombre: detalle.iess?.NOMEM || detalle.rsi?.nomem || "exportacion"
-              })
-            }
-            className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
-          >
-            Exportar a Excel
-          </button>
+      <button
+        onClick={() =>
+          exportToExcel({
+            rsi: detalle.rsi,
+            iess: detalle.iess,
+            cte: detalle.cte,
+            mypymes: detalle.mypymes,
+            nombre: detalle.iess?.NOMEM || detalle.rsi?.nomem || "exportacion",
+          })
+        }
+        className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm"
+      >
+        Exportar a Excel
+      </button>
+
         </div>
       )}
     </div>

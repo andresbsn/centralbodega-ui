@@ -1,25 +1,27 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import * as XLSX from "xlsx";
 
-export const fetchDatosUnificados = async () => {
-  try {
-    const [pymesRes, iessRes] = await Promise.all([
-      fetch(`${API_URL}/pymesguayas/all`),
-      fetch(`${API_URL}/iessguayaquil/all`),
-      fetch(`${API_URL}/basersi/all`)
-    ]);
+export function exportToExcel({ rsi, iess, cte, mypymes, nombre }) {
+  const cteArray = Array.isArray(cte) ? cte : cte ? [cte] : [];
 
-    const pymes = await pymesRes.json();
-    const iess = await iessRes.json();
-    const rsi = await rsiRes.json();
+  const data = cteArray.length > 0
+    ? cteArray.map((cteItem) => ({
+        ...rsi,
+        ...iess,
+        ...mypymes,
+        ...cteItem,
+      }))
+    : [
+        {
+          ...rsi,
+          ...iess,
+          ...mypymes,
+        },
+      ];
 
-    // Añadir un tipo para diferenciarlos luego
-    const datosPymes = pymes.map(p => ({ ...p, _tipo: 'pyme' }));
-    const datosIess = iess.map(i => ({ ...i, _tipo: 'iess' }));
-    const datosRsi = rsi.map(r => ({ ...r, _tipo: "rsi" }));
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Datos");
 
-       return [...datosPymes, ...datosIess, ...datosRsi];
-  } catch (error) {
-    console.error("Error al traer los datos combinados:", error);
-    return [];
-  }
-};
+  const safeNombre = nombre.replace(/[\\/:*?"<>|]/g, "_"); // Evita caracteres inválidos en el nombre del archivo
+  XLSX.writeFile(workbook, `${safeNombre}.xlsx`);
+}
