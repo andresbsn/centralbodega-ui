@@ -16,6 +16,8 @@ export default function SearchUnificadas() {
 
     if (texto.length > 2) {
       const { resultados, total } = await searchUnifiedPerson(texto, 50, 0);
+      console.log(resultados);
+      
       setResultados(resultados);
       setTotalResultados(total);
     } else {
@@ -67,8 +69,10 @@ export default function SearchUnificadas() {
               onClick={() => handleSeleccion(item.id_persona)}
               className="px-4 py-2 cursor-pointer hover:bg-blue-50"
             >
-              {item.nombre_completo}
+              <div className="font-medium">{item.nombre_completo}</div>
+              <div className="text-sm text-gray-500">Coincidencia en: {item.fuente}</div>
             </li>
+
           ))}
         </ul>
       )}

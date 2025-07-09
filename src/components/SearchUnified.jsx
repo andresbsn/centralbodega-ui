@@ -15,6 +15,8 @@ export default function SearchUnificadas() {
 
     if (texto.length > 2) {
       const { resultados, total } = await searchUnifiedPerson(texto, 50, 0);
+      console.log(resultados);
+      
       setResultados(resultados);
       setTotalResultados(total);
     } else {

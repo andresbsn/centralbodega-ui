@@ -13,9 +13,13 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+    
     try {
+      console.log('buscando');
+      
       const response = await login(user, password);
+      console.log('login', response );
+
       sessionStorage.setItem("usuario", JSON.stringify(response.usuario));
       if (response.mensaje === "Login exitoso") {
         navigate("/search");
